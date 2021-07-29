@@ -1,8 +1,8 @@
 let _Vue = null;
 
 export default class VueRouter {
-  // 1. 判断当前插件是否已经被安装
   static install(Vue) {
+    // 1. 判断当前插件是否已经被安装
     if (VueRouter.install.installed) {
       return;
     }
@@ -17,6 +17,7 @@ export default class VueRouter {
       beforeCreate() {
         if (this.$options.router) {
           _Vue.prototype.$router = this.$options.router;
+          this.$options.router.init();
         }
       }
     })
@@ -30,5 +31,31 @@ export default class VueRouter {
     });
   }
 
+  init() {
+    this.createRouteMap();
+    this.initComponents(_Vue);
+  }
 
+  createRouteMap() {
+    // 遍历所有的路由规则，把路由规则解析成键值对的形式，存储到routeMap中
+    this.options.routes.forEach(route => {
+      this.routeMap[route.path] = route.component
+    })
+  }
+
+  initComponents(Vue) {
+    Vue.component('router-link', {
+      props: {
+        to: String
+      },
+      render(h) {
+        return h('a', {
+          attrs: {
+            href: this.to
+          }
+        }, [this.$slots.default])
+      },
+      // template: '<a :href="to"><slot></slot></a>'
+    })
+  }
 }
