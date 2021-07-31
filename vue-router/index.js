@@ -3,9 +3,7 @@ let _Vue = null;
 export default class VueRouter {
   static install(Vue) {
     // 1. 判断当前插件是否已经被安装
-    if (VueRouter.install.installed) {
-      return;
-    }
+    if (VueRouter.install.installed) return;
     VueRouter.install.installed = true;
 
     // 2. 把Vue构造函数记录到全局变量
@@ -25,8 +23,9 @@ export default class VueRouter {
 
   constructor(options) {
     this.options = options;
-    this.routeMap = {};
+    this.routeMap = {}; // 记录路径和对应的组件
     this.data = _Vue.observable({
+      // 当前的默认路径
       current: '/'
     });
   }
@@ -38,9 +37,10 @@ export default class VueRouter {
   }
 
   createRouteMap() {
+    // routes => [{ name: '', path: '', component:  }]
     // 遍历所有的路由规则，把路由规则解析成键值对的形式，存储到routeMap中
     this.options.routes.forEach(route => {
-      this.routeMap[route.path] = route.component
+      this.routeMap[route.path] = route.component;
     })
   }
 
@@ -66,6 +66,8 @@ export default class VueRouter {
           }
         }, [this.$slots.default])
       },
+
+      // 使用完成版本Vue时可以如下写
       // template: '<a :href="to"><slot></slot></a>'
     })
 
@@ -79,6 +81,7 @@ export default class VueRouter {
   }
 
   initEvent() {
+    // 点击前进后退时，修改视图
     window.addEventListener('popstate', () => {
       this.data.current = window.location.pathname;
     })
