@@ -1,16 +1,15 @@
 ## Vue-Router 实现原理
 
-#### 1. 类图
+[代码实现](./index.js)
+
+### 1. 类图
 | VueRouter |
 | --- |
 | + options <br> + data <br> + routeMap |
 | + Constructor(Options): VueRouter <br> _ install(Vue): void <br> + init(): void <br> + initEvent(): void <br> + createRouteMap(): void <br> + initComponents(Vue): void |
 
-#### 2. 代码实现
-[vue-router/index.js](./index.js)
-
-#### 3. Vue的运行时版本和完整版
-##### 完整版的Vue
+### 2. Vue的运行时版本和完整版
+#### 完整版的Vue
 完整版vue同时包含 `运行时`（runtime）和 `编译器`（compiler），体积比运行时版大10k左右，程序运行时会把模板转换成 `render` 函数。
 配置vue.config.js:
 ```js
@@ -21,7 +20,7 @@ module.exports = {
   runtimeCompiler: true // 默认false
 }
 ```
-##### 运行时版本的Vue
+#### 运行时版本的Vue
 不支持template模板，需要打包时提前编译，所以需要自己手写 `render` 函数。
 ```js
 Vue.component('router-link', {
@@ -37,3 +36,5 @@ Vue.component('router-link', {
   }
 })
 ```
+
+### 3. 
