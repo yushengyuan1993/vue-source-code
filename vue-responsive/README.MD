@@ -13,5 +13,10 @@
 #### Vue v2.x
   - [Vue v2.x响应式原理](https://cn.vuejs.org/v2/guide/reactivity.html)
   - [MDN - Object.defineProperty](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object/defineProperty)
-  - [单个属性](./01-defineProperty-single.html)，[多个属性](./01-defineProperty-multi.html)
+  - [单个属性](./01-defineProperty-single.html)，[多个属性](./02-defineProperty-multi.html)
   - 浏览器兼容 IE8 以上（不兼容 IE8）
+
+#### Vue v3.x
+  - [MDN - Proxy](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Proxy)
+  - 直接监听对象而非属性，不需要遍历
+  - `ES6` 中新增，`IE` 不支持，性能由浏览器优化
