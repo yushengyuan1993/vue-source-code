@@ -92,3 +92,15 @@ evm.$on('change', () => {
 evm.$emit('click') // click1 click2
 evm.$emit('change') // change
 ```
+
+### 4. 观察者模式
+#### 概念
+  - 观察者（订阅者） -- Watcher
+    - update(): 当时间发生时，具体要做的事情
+  - 目标（发布者） -- Dep
+    - subs数组：存储所有观察者
+    - addSub()：添加观察者
+    - notify()：当时间发生，调用所有观察者的 update() 方法
+  - 没有事件中心
+
+`Vue`中的数据响应式使用了观察者模式。
