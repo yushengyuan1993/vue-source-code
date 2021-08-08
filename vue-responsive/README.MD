@@ -95,12 +95,55 @@ evm.$emit('change') // change
 
 ### 4. 观察者模式
 #### 概念
-  - 观察者（订阅者） -- Watcher
-    - update(): 当时间发生时，具体要做的事情
-  - 目标（发布者） -- Dep
-    - subs数组：存储所有观察者
-    - addSub()：添加观察者
-    - notify()：当时间发生，调用所有观察者的 update() 方法
+  - 观察者（订阅者） -- **`Watcher`**
+    - `update()`: 当时间发生时，具体要做的事情
+  - 目标（发布者） -- **`Dep`**
+    - `subs` 数组：存储所有观察者
+    - `addSub()`：添加观察者
+    - `notify()`：当时间发生，调用所有观察者的 update() 方法
   - 没有事件中心
 
-`Vue`中的数据响应式使用了观察者模式。
+> `Vue`中的数据响应式使用了观察者模式。
+
+#### 简单的观察者模式
+```js
+/**
+ * 发布者- 目标 
+ */
+class Dep {
+  constructor() {
+    // 记录所有的订阅者
+    this.subs = []
+  }
+
+  // 添加订阅者
+  addSub(sub) {
+    if (sub?.update) {
+      this.subs.push(sub)
+    }
+  }
+
+  // 发布通知
+  notify() {
+    this.subs.forEach(sub => {
+      sub.update()
+    })
+  }
+}
+
+/**
+ * 订阅者 - 观察者
+ */
+class Watcher {
+  update() {
+    console.log('update')
+  }
+}
+
+// 测试
+let dep = new Dep()
+let watcher = new Watcher()
+
+dep.addSub(watcher)
+dep.notify() // update
+```
