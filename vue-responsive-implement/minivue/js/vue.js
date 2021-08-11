@@ -9,6 +9,8 @@ class Vue {
     this._proxyData(this.$data);
 
     // 3. 调用observer对象，监听数据的变化
+    new Observer(this.$data);
+
     // 4. 调用compiler对象，解析指令和差值表达式
   }
 

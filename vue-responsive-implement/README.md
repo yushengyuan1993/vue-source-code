@@ -3,9 +3,9 @@
 #### minivue 的基本结构
 ![Vue](./assets/images/minivue-01.png)
 
-- **Vue：**
+- **[Vue：](#1-vue)**
   - 把 `data` 中的成员注入到 `Vue` 实例，并且把 `data` 中的成员转成 `getter/setter`
-- **Observer：**
+- **[Observer：](#2-observer)**
   - 能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知 `Dep`
 - **Compiler：**
   - 解析每个元素中的指令/插值表达式，并替换成相应的数据
@@ -57,6 +57,56 @@ class Vue {
           data[key] = newValue;
         }
       })
+    })
+  }
+}
+```
+
+### 2. Observer
+- 功能
+  - 负责把 `data` 选项中的属性转换成响应式数据
+  - `data` 中的某个属性也是对象，把该属性转换成响应式数据
+  - 数据变化发送通知
+- 结构
+  | Observer |
+  | --- |
+  | + walk(data) <br> + defineReactive(data, key, value) |
+- 代码
+```js
+// 负责数据劫持
+// 把 $data 中的成员转换成getter/setter
+class Observer {
+  constructor(data) {
+    this.walk(data)
+  }
+
+  // 1. 判断数据是否是对象，如果不是对象则返回
+  // 2. 如果是对象，遍历对象的所有属性，设置为 getter/setter
+  walk(data) {
+    if (!data || typeof data !== 'object') {
+      return
+    }
+
+    // 遍历 data 的所有成员
+    Object.keys(data).forEach(key => {
+      this.defineReactive(data, key, data[key])
+    })
+  }
+
+  defineReactive(data, key, val) {
+    Object.defineProperty(data, key, {
+      enumerable: true,
+      configurable: true,
+      get() {
+        return val
+      },
+      set(newVal) {
+        if (newVal === val) {
+          return
+        }
+        val = newVal
+        // 发送通知...
+      }
     })
   }
 }
