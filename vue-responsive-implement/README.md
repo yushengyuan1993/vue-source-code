@@ -80,20 +80,22 @@ class Observer {
     this.walk(data)
   }
 
-  // 1. 判断数据是否是对象，如果不是对象则返回
-  // 2. 如果是对象，遍历对象的所有属性，设置为 getter/setter
   walk(data) {
+    // 1. 判断数据是否是对象，如果不是对象则返回
     if (!data || typeof data !== 'object') {
       return
     }
-
-    // 遍历 data 的所有成员
+    
+    // 2. 如果是对象，遍历对象的所有属性，设置为 getter/setter
     Object.keys(data).forEach(key => {
       this.defineReactive(data, key, data[key])
     })
   }
 
   defineReactive(data, key, val) {
+    // 如果val是对象，把val内部的属性也转换成响应式数据
+    this.walk(val)
+
     Object.defineProperty(data, key, {
       enumerable: true,
       configurable: true,

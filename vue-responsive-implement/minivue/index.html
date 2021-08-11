@@ -20,13 +20,17 @@
 
   <script src="./js/observer.js"></script>
   <script src="./js/vue.js"></script>
-  
+
   <script>
     const vm = new Vue({
       el: '#app',
       data: {
         name: 'yushare',
-        age: 18
+        age: 18,
+        person: {
+          phone: 10086,
+          gender: '男'
+        }
       }
     });
   </script>
