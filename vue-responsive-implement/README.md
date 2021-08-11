@@ -93,6 +93,8 @@ class Observer {
   }
 
   defineReactive(data, key, val) {
+    const that = this;
+
     // 如果val是对象，把val内部的属性也转换成响应式数据
     this.walk(val)
 
@@ -107,6 +109,7 @@ class Observer {
           return
         }
         val = newVal
+        that.walk(newVal)
         // 发送通知...
       }
     })
