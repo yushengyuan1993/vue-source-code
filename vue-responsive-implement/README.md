@@ -7,7 +7,7 @@
   - 把 `data` 中的成员注入到 `Vue` 实例，并且把 `data` 中的成员转成 `getter/setter`
 - **[Observer：](#2-observer)**
   - 能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知 `Dep`
-- **Compiler：**
+- **[Compiler：](#3-compiler)**
   - 解析每个元素中的指令/插值表达式，并替换成相应的数据
 - **Dep：**
   - 添加观察者 `watcher`，当数据变化通知所有观察者
@@ -114,5 +114,22 @@ class Observer {
       }
     })
   }
+}
+```
+
+### 3. Compiler
+- 功能
+  - 负责编译模板，解析指令、差值表达式
+  - 负责页面的首次渲染
+  - 当数据变化后重新渲染视图
+- 结构
+  | Compiler |
+  | --- |
+  | + el <br> + vm |
+  | + compiler(el) <br> + compileElement(node) <br> + compileText(node) <br> + isDirective(attrName) <br> + isTextNode(node) <br> + isElementNode(node) <br>  |
+- 代码
+```js
+class Compiler {
+
 }
 ```
