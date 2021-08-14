@@ -2,6 +2,7 @@ class Compiler {
   constructor(vm) {
     this.el = vm.$el
     this.vm = vm
+    this.compile(this.el)
   }
 
   // 编译模板，处理文本节点和元素节点
@@ -30,7 +31,7 @@ class Compiler {
 
   // 编译文本节点，处理差值表达式
   compileText(node) {
-
+    console.log(node);
   }
 
   // 判断元素属性是否是指令
