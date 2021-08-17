@@ -31,7 +31,7 @@ class Compiler {
 
   // 编译文本节点，处理差值表达式
   compileText(node) {
-    console.log(node);
+
   }
 
   // 判断元素属性是否是指令
