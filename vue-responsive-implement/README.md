@@ -128,6 +128,7 @@ class Observer {
   | + el <br> + vm |
   | + compiler(el) <br> + compileElement(node) <br> + compileText(node) <br> + isDirective(attrName) <br> + isTextNode(node) <br> + isElementNode(node) <br>  |
 - 代码
+**Compile**
 ```js
 class Compiler {
   constructor(vm) {
@@ -179,3 +180,13 @@ class Compiler {
   }
 }
 ```
+**compileText()**
+  - 负责编译插值表达式
+
+
+
+
+**compileElement()**
+  - 负责编译元素的指令
+  - 处理 `v-text` 的首次渲染
+  - 处理 `v-model` 的首次渲染
