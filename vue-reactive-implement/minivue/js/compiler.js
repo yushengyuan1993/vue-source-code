@@ -31,7 +31,7 @@ class Compiler {
     // 遍历所有的属性节点
     Array.from(node.attributes).forEach(attr => {
       // 判断是否是指令
-      let attrName = attr.attrName
+      let attrName = attr.name
       if (this.isDirective(attrName)) {
         // v-text --> text
         attrName = attrName.substr(2)
