@@ -9,7 +9,7 @@
   - 能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知 `Dep`
 - **[Compiler：](#3-compiler)**
   - 解析每个元素中的指令/插值表达式，并替换成相应的数据
-- **Dep：**
+- **[Dep](#4-dep)**
   - 添加观察者 `watcher`，当数据变化通知所有观察者
 - **Watcher：**
   - 数据变化更新视图
@@ -158,12 +158,46 @@ class Compiler {
 
   // 编译元素节点，处理指令
   compileElement(node) {
+    // console.log(node.attributes)
+    // v-text v-model
+    // 遍历所有的属性节点
+    Array.from(node.attributes).forEach(attr => {
+      // 判断是否是指令
+      let attrName = attr.name
+      if (this.isDirective(attrName)) {
+        // v-text --> text
+        attrName = attrName.substr(2)
+        let key = attr.value
+        this.update(node, key, attrName)
+      }
+    })
+  }
 
+  update(node, key, attrName) {
+    let updateFn = this[attrName + 'Updater']
+    updateFn && updateFn(node, this.vm[key])
+  }
+
+  // 处理 v-text 指令
+  textUpdater(node, value) {
+    node.textContent = value
+  }
+
+  // v-model
+  modelUpdater(node, value) {
+    node.value = value
   }
 
   // 编译文本节点，处理差值表达式
   compileText(node) {
-
+    // console.dir(node);
+    // {{ msg }}
+    let reg = /\{\{(.+?)\}\}/
+    let value = node.textContent
+    if (reg.test(value)) {
+      let key = RegExp.$1.trim()
+      node.textContent = value.replace(reg, this.vm[key])
+    }
   }
 
   // 判断元素属性是否是指令
@@ -183,10 +217,9 @@ class Compiler {
 **compileText()**
   - 负责编译插值表达式
 
-
-
-
 **compileElement()**
   - 负责编译元素的指令
   - 处理 `v-text` 的首次渲染
   - 处理 `v-model` 的首次渲染
+
+### 4. Dep
