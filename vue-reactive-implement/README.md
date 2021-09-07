@@ -11,7 +11,7 @@
   - 解析每个元素中的指令/插值表达式，并替换成相应的数据
 - **[Dep](#4-depdependency)**
   - 添加观察者 `watcher`，当数据变化通知所有观察者
-- **Watcher：**
+- **[Watcher](#5-watcher)**
   - 数据变化更新视图
 
 ### 1. Vue
@@ -235,5 +235,60 @@ class Compiler {
   | + addSub(sub) <br> + notify() |
 - 代码
 ```js
+class Dep {
+  constructor() {
+    // 存储所有的观察者
+    this.subs = []
+  }
 
+  // 添加观察者
+  addSub(sub) {
+    if (sub && sub.update) {
+      this.subs.push(sub)
+    }
+  }
+
+  // 发送通知
+  notify() {
+    this.subs.forEach(sub => {
+      sub.update()
+    })
+  }
+}
+```
+
+### 5. Watcher
+- 功能
+  - 当数据变化触发依赖，`dep` 通知所有的 `Watcher` 示例更新视图
+  - 自身实例化的时候往 `dep` 对象中添加自己
+- 结构
+  | Watcher |
+  | --- |
+  | + vm <br> + key <br> + cb <br> + oldValue |
+  | + update() |
+- 代码
+```js
+class Watcher {
+  constructor(vm, key, cb) {
+    this.vm = vm
+
+    // data中的属性名称
+    this.key = key
+    // 回调函数负责更新视图
+    this.cb = cb
+
+    // 把watcher对象记录到Dep类的静态属性target中
+    Dep.target = this
+    // 触发get方法，在get方法中会调用addSub
+    this.oldValue = vm[key]
+    Dep.target = null
+  }
+
+  // 当数据发生变化的时候更新视图
+  update() {
+    let newValue = this.vm[this.key]
+    if (this.oldValue === newValue) return
+    this.cb(newValue)
+  }
+}
 ```
