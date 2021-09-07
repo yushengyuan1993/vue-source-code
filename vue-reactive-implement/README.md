@@ -9,7 +9,7 @@
   - 能够对数据对象的所有属性进行监听，如有变动可拿到最新值并通知 `Dep`
 - **[Compiler：](#3-compiler)**
   - 解析每个元素中的指令/插值表达式，并替换成相应的数据
-- **[Dep](#4-dep)**
+- **[Dep](#4-depdependency)**
   - 添加观察者 `watcher`，当数据变化通知所有观察者
 - **Watcher：**
   - 数据变化更新视图
@@ -222,4 +222,18 @@ class Compiler {
   - 处理 `v-text` 的首次渲染
   - 处理 `v-model` 的首次渲染
 
-### 4. Dep
+### 4. Dep(Dependency)
+![Dep](./assets/images/minivue-02.png)
+
+- 功能
+  - 收集依赖，添加观察者(watcher)
+  - 通知所有观察者
+- 结构
+  | Dep |
+  | --- |
+  | + subs |
+  | + addSub(sub) <br> + notify() |
+- 代码
+```js
+
+```
