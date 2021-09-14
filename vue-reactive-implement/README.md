@@ -292,3 +292,7 @@ class Watcher {
   }
 }
 ```
+在 `compiler.js` 中为每一个指令/插值表达式创建 `watcher` 对象，监视数据的变化
+```js
+
+```
