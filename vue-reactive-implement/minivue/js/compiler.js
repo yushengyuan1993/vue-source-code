@@ -58,7 +58,7 @@ class Compiler {
 
   // 编译文本节点，处理差值表达式
   compileText(node) {
-    // console.dir(node);
+    // console.dir(node)
     // {{ msg }}
     let reg = /\{\{(.+?)\}\}/
     let value = node.textContent

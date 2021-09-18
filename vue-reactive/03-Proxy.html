@@ -21,35 +21,35 @@
     let data = {
       name: null,
       age: null
-    };
+    }
 
     // 模拟 Vue 实例
     let vm = new Proxy(data, {
       // 执行代理行为的函数
       // 当访问 vm 的成员会执行
       get(target, key) {
-        console.log('get, key: ', key, target[key]);
-        return target[key];
+        console.log('get, key: ', key, target[key])
+        return target[key]
       },
 
       // 当设置 vm 的成员会执行
       set(target, key, newValue) {
-        console.log('set, key: ', key, newValue);
+        console.log('set, key: ', key, newValue)
 
-        if (target[key] === newValue) return;
+        if (target[key] === newValue) return
 
-        target[key] = newValue;
+        target[key] = newValue
 
-        document.querySelector(`#${key}`).textContent = data[key];
+        document.querySelector(`#${key}`).textContent = data[key]
       }
-    });
+    })
 
     // 测试
-    vm.name = 'ysy';
-    console.log(vm.name);
+    vm.name = 'ysy'
+    console.log(vm.name)
 
-    vm.age = 18;
-    console.log(vm.age);
+    vm.age = 18
+    console.log(vm.age)
   </script>
 </body>
 </html>
