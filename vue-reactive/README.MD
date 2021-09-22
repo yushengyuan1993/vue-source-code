@@ -33,7 +33,7 @@
 #### Vue中的自定义事件
 ```js
 // Vue 自定义事件
-let vm = new Vue();
+let vm = new Vue()
 // { 'click': [fn1, fn2], 'change', [fn] }
 
 // 注册事件（订阅消息）

@@ -21,12 +21,12 @@
     let data = {
       name: null,
       age: null
-    };
+    }
 
     // 模拟 Vue 的实例
-    let vm = {};
+    let vm = {}
 
-    proxyData(data);
+    proxyData(data)
 
     function proxyData(data) {
       // 遍历 data 对象的所有属性
@@ -36,29 +36,29 @@
           enumerable: true,
           configurable: true,
           get () {
-            console.log('get: ', key, data[key]);
-            return data[key];
+            console.log('get: ', key, data[key])
+            return data[key]
           },
           set (newValue) {
-            console.log('set: ', key, newValue);
+            console.log('set: ', key, newValue)
             if (newValue === data[key]) {
-              return;
+              return
             }
-            data[key] = newValue;
+            data[key] = newValue
             // 数据更改，更新 DOM 的值
-            document.querySelector(`#${key}`).textContent = data[key];
-            // document.querySelector('#app').textContent = data[key];
+            document.querySelector(`#${key}`).textContent = data[key]
+            // document.querySelector('#app').textContent = data[key]
           }
         })
       })
     }
 
     // 测试
-    vm.name = 'ysy';
-    console.log(vm.name);
+    vm.name = 'ysy'
+    console.log(vm.name)
 
-    vm.age = 18;
-    console.log(vm.age);
+    vm.age = 18
+    console.log(vm.age)
   </script>
 </body>
 </html>
