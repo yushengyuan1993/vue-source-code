@@ -62,6 +62,11 @@ class Compiler {
     new Watcher(this.vm, key, (newValue) => {
       node.value = newValue
     })
+
+    // 双向数据绑定
+    node.addEventListener('input', () => {
+      this.vm[key] = node.value
+    })
   }
 
   // 编译文本节点，处理差值表达式
