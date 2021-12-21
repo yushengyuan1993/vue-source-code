@@ -258,6 +258,8 @@ class Dep {
 ```
 
 ### 5. Watcher
+![Watcher](./assets/images/Watcher.png)
+
 - 功能
   - 当数据变化触发依赖，`dep` 通知所有的 `Watcher` 示例更新视图
   - 自身实例化的时候往 `dep` 对象中添加自己
@@ -294,5 +296,14 @@ class Watcher {
 ```
 在 `compiler.js` 中为每一个指令/插值表达式创建 `watcher` 对象，监视数据的变化
 ```js
-
+// 因为在 textUpdater等中要使用 this
+updaterFn && updaterFn.call(this, node, this.vm[key], key)
+// v-text 指令的更新方法
+textUpdater (node, value, key) {
+  node.textContent = value
+  // 每一个指令中创建一个 watcher，观察数据的变化
+  new Watcher(this.vm, key, value => {
+    node.textContent = value
+  })
+}
 ```
