@@ -307,3 +307,22 @@ textUpdater (node, value, key) {
   })
 }
 ```
+
+### 6. 视图变化更新数据
+```js
+// v-model 指令的更新方法
+modelUpdater (node, value, key) {
+  node.value = value
+  // 每一个指令中创建一个 watcher，观察数据的变化
+  new Watcher(this.vm, key, value => {
+    node.value = value
+  })
+  // 监听视图的变化
+  node.addEventListener('input', () => {
+    this.vm[key] = node.value
+  })
+}
+```
+
+### 7. 总结
+![Watcher](./assets/images/vue.png)
