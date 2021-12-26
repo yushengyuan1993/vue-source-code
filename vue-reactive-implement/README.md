@@ -325,4 +325,39 @@ modelUpdater (node, value, key) {
 ```
 
 ### 7. 总结
-![Watcher](./assets/images/vue.png)
+
+- 问题
+  - 给属性重新赋值成对象，对象的成员是否是响应式的？
+    - 是响应式的，因为重新赋值，会重新遍历对象并设置响应式。
+  - 给 Vue 实例新增一个成员是否是响应式的？
+    - 不是响应式的，对于已经创建的实例，Vue 不允许动态添加根级别的响应式 property，但是可以使用 `Vue.set`/`this.$set`实现[深入响应式原理](https://cn.vuejs.org/v2/guide/reactivity.html)。
+
+- 整体流程
+![vue](./assets/images/vue.png)
+
+- Vue
+  - 记录传入的选项，设置 $data/$el
+  - 把 data 的成员注入到 Vue 实例
+  - 负责调用 Observer 实现数据响应式处理（数据劫持）
+  - 负责调用 Compiler 编译指令/插值表达式等
+
+- Observer
+  - 数据劫持
+    - 负责把 data 中的成员转换成 getter/setter
+    - 负责把多层属性转换成 getter/setter
+    - 如果给属性赋值为新对象，把新对象的成员设置为 getter/setter
+  - 添加 Dep 和 Watcher 的依赖关系
+  - 数据变化发送通知
+
+- Compiler
+  - 负责编译模板，解析指令/插值表达式
+  - 负责页面的首次渲染过程
+  - 当数据变化后重新渲染
+
+- Dep
+  - 收集依赖，添加订阅者(Watcher)
+  - 通知所有订阅者
+
+- Watcher
+  - 自身实例化的时候往 Dep 对象中添加自己
+  - 当数据变化 Dep 通知所有的 Watcher 实例更新视图
